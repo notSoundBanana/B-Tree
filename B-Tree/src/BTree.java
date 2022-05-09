@@ -10,7 +10,7 @@ public class BTree {
         Node[] child = new Node[2 * T];
         boolean leaf = true;
 
-        public int Find(int k) {
+        public int find(int k) {
             for (int i = 0; i < this.n; i++) {
                 if (this.key[i] == k) {
                     return i;
@@ -30,7 +30,7 @@ public class BTree {
     private Node root;
 
     // Поиск ключа
-    private Node Search(Node x, int key) {
+    private Node search(Node x, int key) {
         int i = 0;
         if (x == null) return x;
         for (i = 0; i < x.n; i++) {
@@ -44,12 +44,12 @@ public class BTree {
         if (x.leaf) {
             return null;
         } else {
-            return Search(x.child[i], key);
+            return search(x.child[i], key);
         }
     }
 
     // Разбиение узла
-    private void Split(Node x, int pos, Node y) {
+    private void split(Node x, int pos, Node y) {
         Node z = new Node();
         z.leaf = y.leaf;
         z.n = T - 1;
@@ -75,7 +75,7 @@ public class BTree {
     }
 
     // Вставка значения
-    public void Insert(final int key) {
+    public void insert(final int key) {
         Node r = root;
         if (r.n == 2 * T - 1) {
             Node s = new Node();
@@ -83,7 +83,7 @@ public class BTree {
             s.leaf = false;
             s.n = 0;
             s.child[0] = r;
-            Split(s, 0, r);
+            split(s, 0, r);
             insertValue(s, key);
         } else {
             insertValue(r, key);
@@ -106,7 +106,7 @@ public class BTree {
             i++;
             Node tmp = x.child[i];
             if (tmp.n == 2 * T - 1) {
-                Split(x, i, tmp);
+                split(x, i, tmp);
                 if (k > x.key[i]) {
                     i++;
                 }
@@ -116,41 +116,41 @@ public class BTree {
 
     }
 
-    public void Show() {
-        Show(root);
+    public void show() {
+        show(root);
     }
 
     // Вывод на экран
-    private void Show(Node x) {
+    private void show(Node x) {
         assert (x == null);
         for (int i = 0; i < x.n; i++) {
             System.out.print(x.key[i] + " ");
         }
         if (!x.leaf) {
             for (int i = 0; i < x.n + 1; i++) {
-                Show(x.child[i]);
+                show(x.child[i]);
             }
         }
     }
 
     // Проверка, содержится ли ключ
-    public boolean Contain(int k) {
-        return this.Search(root, k) != null;
+    public boolean contain(int k) {
+        return this.search(root, k) != null;
     }
 
     public static void main(String[] args) {
         BTree b = new BTree(3);
-        b.Insert(8);
-        b.Insert(9);
-        b.Insert(10);
-        b.Insert(11);
-        b.Insert(15);
-        b.Insert(20);
-        b.Insert(17);
+        b.insert(8);
+        b.insert(9);
+        b.insert(10);
+        b.insert(11);
+        b.insert(15);
+        b.insert(20);
+        b.insert(17);
 
-        b.Show();
+        b.show();
 
-        if (b.Contain(12)) {
+        if (b.contain(12)) {
             System.out.println("\nнайдено");
         } else {
             System.out.println("\nне найдено");
